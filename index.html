@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Teman Curhat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            keyframes: {
+              'fade-in-down': {
+                '0%': {
+                    opacity: '0',
+                    transform: 'translateY(-10px)'
+                },
+                '100%': {
+                    opacity: '1',
+                    transform: 'translateY(0)'
+                },
+              },
+              'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'scale-in': {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              }
+            },
+            animation: {
+              'fade-in-down': 'fade-in-down 0.3s ease-out forwards',
+              'fade-in': 'fade-in 0.2s ease-out forwards',
+              'scale-in': 'scale-in 0.2s ease-out forwards',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Simple scrollbar styling for a more modern look */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      /* Custom keyframes for the loading screen */
+      @keyframes slow-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes float {
+        0% { transform: translate(0, 0); }
+        20% { transform: translate(-10vw, 15vh); }
+        40% { transform: translate(15vw, -10vh); }
+        60% { transform: translate(5vw, 20vh); }
+        80% { transform: translate(-15vw, -5vh); }
+        100% { translate(0, 0); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.8.0",
+    "jspdf": "https://esm.sh/jspdf@^2.5.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-100 dark:bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
