@@ -16,29 +16,21 @@ const videoModels = {
 let ai: GoogleGenAI | null = null;
 
 try {
-  // ===================================================================================
-  // !! PERHATIAN !!
-  // Ganti string di bawah ini dengan API Key Gemini Anda yang sebenarnya.
-  // Cara ini TIDAK AMAN untuk aplikasi produksi karena akan mengekspos API Key Anda.
-  // Gunakan hanya untuk tujuan development atau demo.
-  // ===================================================================================
-  const apiKey = "PASTE_API_KEY_ANDA_DI_SINI"; 
-
-  if (!apiKey || apiKey === "PASTE_API_KEY_ANDA_DI_SINI") {
-    throw new Error("API_KEY tidak diatur langsung di dalam kode. Harap edit file services/geminiService.ts.");
+  // The API key is securely managed by the environment and accessible via process.env.API_KEY.
+  if (!process.env.API_KEY) {
+    throw new Error("API_KEY environment variable not set. This is a fatal configuration error.");
   }
-  ai = new GoogleGenAI({ apiKey });
+  ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 } catch (error) {
   console.error(
-    "FATAL: GoogleGenAI tidak dapat diinisialisasi. " +
-    "Pastikan Anda sudah memasukkan API Key Anda langsung di dalam file services/geminiService.ts.",
+    "FATAL: GoogleGenAI could not be initialized. Ensure the API_KEY environment variable is set correctly.",
     error
   );
 }
 
 const getInitializationErrorResponse = (): AIResponse => ({
     action: 'REPLY_WITH_TEXT',
-    textResponse: "Maaf, aku lagi nggak bisa mikir sekarang. Sepertinya ada masalah konfigurasi dengan API key-ku. Pastikan API key sudah dimasukkan dengan benar di dalam kode.",
+    textResponse: "Maaf, aku lagi nggak bisa mikir sekarang. Sepertinya ada masalah teknis. Coba lagi nanti ya.",
     emotion: Emotion.BADMOOD,
 });
 
@@ -726,11 +718,8 @@ export const generateAIVideo = async (
         
         if (onProgress) onProgress("Downloading video...");
 
-        // This part needs to be adapted as process.env.API_KEY is not available
-        // We will assume 'ai' instance can provide the key or another mechanism is in place.
-        // For now, this will fail if it reaches here without a valid key.
-        const apiKey = (ai as any).apiKey;
-        const response = await fetch(`${downloadLink}&key=${apiKey}`);
+        // The API key is retrieved from the environment variables as per security best practices.
+        const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
         if (!response.ok) {
             throw new Error(`Failed to download video file: ${response.statusText}`);
         }
